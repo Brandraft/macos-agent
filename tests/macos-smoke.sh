@@ -1,10 +1,10 @@
 #!/bin/bash
 # Runs only on a disposable GitHub-hosted macOS runner, never on a user's Mac.
 set -euo pipefail
-[ "${GITHUB_ACTIONS:-}" = true ] && [ "${RUNNER_OS:-}" = macOS ] || {
+if [ "${GITHUB_ACTIONS:-}" != true ] || [ "${RUNNER_OS:-}" != macOS ]; then
     echo 'This test modifies system configuration and is restricted to macOS CI.' >&2
     exit 1
-}
+fi
 cd "$(dirname "$0")/.."
 SMOKE_DIR=$(mktemp -d)
 trap 'rm -rf "$SMOKE_DIR"' EXIT

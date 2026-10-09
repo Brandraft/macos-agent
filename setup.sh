@@ -119,7 +119,9 @@ if [ "$MODE" = network ]; then
     exit 0
 fi
 
-[ -n "$KEY_FILE" ] && [ -f "$KEY_FILE" ] || die 'Supply --ssh-key with a public key file.'
+if [ -z "$KEY_FILE" ] || [ ! -f "$KEY_FILE" ]; then
+    die 'Supply --ssh-key with a public key file.'
+fi
 # Accept exactly one plain public key, not a private key or authorized_keys options.
 [ "$(awk 'NF {n++} END {print n+0}' "$KEY_FILE")" -eq 1 ] || die 'Supply exactly one public key.'
 grep -Eq '^(ssh-ed25519|ssh-rsa|ecdsa-sha2-nistp(256|384|521)) [A-Za-z0-9+/=]+( .*)?$' "$KEY_FILE" || die 'Expected a plain OpenSSH public key.'

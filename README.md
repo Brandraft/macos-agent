@@ -102,7 +102,7 @@ bash tests/check.sh
 shellcheck setup.sh lib/network.sh tests/*.sh
 ```
 
-Local validation covers shell syntax, ShellCheck, invalid input rejection, and simulated firewall failure and rollback paths. Live macOS setup and packet filtering have not been tested.
+Local validation covers shell syntax, ShellCheck, invalid input rejection, and simulated firewall failure and rollback paths. The macOS CI job has also passed PF and plist parsing, base setup with package installation skipped, SSH configuration checks, and a second setup run without duplicate changes. Live packet filtering and target Mac recovery have not been tested.
 
 `.github/workflows/check.yml` runs on every push and pull request. It runs shell checks on Linux, parses the generated PF rules and launchd plist on macOS, and runs base setup twice on a disposable macOS runner with tool downloads skipped. The smoke test modifies that runner's sudoers, SSH, power, update, and shell settings. It refuses to run outside macOS GitHub Actions.
 

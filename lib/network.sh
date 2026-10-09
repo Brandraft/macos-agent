@@ -15,7 +15,10 @@ valid_ipv4() {
     local old_ifs=$IFS
     IFS=.
     for octet in $value; do
-        [ "${#octet}" -le 3 ] && [ "$((10#$octet))" -le 255 ] || { IFS=$old_ifs; return 1; }
+        if [ "${#octet}" -gt 3 ] || [ "$((10#$octet))" -gt 255 ]; then
+            IFS=$old_ifs
+            return 1
+        fi
     done
     IFS=$old_ifs
 }
